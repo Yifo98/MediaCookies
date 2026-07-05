@@ -1,7 +1,7 @@
 {
   "name": "media-cookies",
   "private": true,
-  "version": "0.1.7",
+  "version": "0.1.8",
   "type": "module",
   "description": "XF MediaCookies browser extension for exporting selected cookies into Media Dock compatible packages.",
   "scripts": {

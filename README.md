@@ -2,6 +2,12 @@
 
 Browser extension for exporting selected site cookies as Media Dock compatible ZIP packages.
 
+## Install
+
+- Chrome Web Store: [XF MediaCookies](https://chromewebstore.google.com/detail/xf-mediacookies/pkpnjlcfhkgiapclmidlhfgjklhifcek)
+- Other Chromium-based browsers can also open the same Chrome Web Store link when their extension store flow supports Chrome extensions.
+- GitHub Releases: [download the ZIP package](https://github.com/Yifo98/MediaCookies/releases/latest), then load the unpacked extension from the generated `dist/` folder when developing locally.
+
 ## Commands
 
 ```bash
