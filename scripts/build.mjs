@@ -7,7 +7,6 @@ const files = [
   'manifest.json',
   'popup.html',
   'popup.css',
-  'popup-size.js',
   'popup.js',
   'cookie-export.js',
   'service-rules.js',
