@@ -1,0 +1,13 @@
+{
+  "name": "media-cookies",
+  "private": true,
+  "version": "0.1.7",
+  "type": "module",
+  "description": "XF MediaCookies browser extension for exporting selected cookies into Media Dock compatible packages.",
+  "scripts": {
+    "validate": "node scripts/validate.mjs",
+    "build": "node scripts/build.mjs",
+    "package": "node scripts/package.mjs",
+    "check": "npm run validate && npm run build && npm run package"
+  }
+}
