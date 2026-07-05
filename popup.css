@@ -1,5 +1,7 @@
 :root {
   color-scheme: dark;
+  --popup-height: 600px;
+  --popup-width: 420px;
   font-family:
     Inter,
     ui-sans-serif,
@@ -13,12 +15,12 @@
 }
 
 html {
-  width: 420px;
-  min-width: 420px;
-  max-width: 420px;
-  height: 600px;
-  min-height: 600px;
-  max-height: 600px;
+  width: var(--popup-width);
+  min-width: min(360px, 100vw);
+  max-width: min(600px, 100vw);
+  height: var(--popup-height);
+  min-height: min(480px, 100vh);
+  max-height: min(600px, 100vh);
   overflow: hidden;
   background: #091015;
 }
@@ -28,12 +30,12 @@ html {
 }
 
 body {
-  width: 420px;
-  min-width: 420px;
-  max-width: 420px;
-  height: 600px;
-  min-height: 600px;
-  max-height: 600px;
+  width: var(--popup-width);
+  min-width: min(360px, 100vw);
+  max-width: min(600px, 100vw);
+  height: var(--popup-height);
+  min-height: min(480px, 100vh);
+  max-height: min(600px, 100vh);
   overflow: hidden;
   margin: 0;
   background:
@@ -470,6 +472,36 @@ footer {
 
 footer strong {
   color: #e7d76c;
+}
+
+html[data-popup-layout="wide"] .shell {
+  padding: 16px;
+}
+
+html[data-popup-layout="wide"] .section-title {
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 16px;
+}
+
+html[data-popup-layout="wide"] .button-row {
+  justify-content: flex-end;
+}
+
+html[data-popup-layout="wide"] .scan-mode {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+html[data-popup-layout="wide"] .profile-panel {
+  grid-template-columns: minmax(0, 1fr) auto;
+}
+
+html[data-popup-layout="wide"] .service-list {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  max-height: 320px;
+}
+
+html[data-popup-layout="wide"] .summary {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
 }
 
 @media (max-width: 430px) {
