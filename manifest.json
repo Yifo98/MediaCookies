@@ -1,48 +1,35 @@
 {
   "manifest_version": 3,
-  "name": "XF MediaCookies",
-  "short_name": "XF Cookies",
-  "version": "0.1.8",
-  "description": "Export selected site cookies in Media Dock compatible cookies.txt packages. No password export, no network upload.",
+  "name": "MediaCookies",
+  "short_name": "MediaCookies",
+  "version": "0.2.0",
+  "description": "Export the current media login state as a local Media Dock compatible Cookie package. No password export, no network upload.",
   "icons": {
-    "16": "icons/icon16.png",
-    "32": "icons/icon32.png",
-    "48": "icons/icon48.png",
-    "128": "icons/icon128.png"
+    "16": "dist/icons/icon16.png",
+    "32": "dist/icons/icon32.png",
+    "48": "dist/icons/icon48.png",
+    "128": "dist/icons/icon128.png"
   },
   "action": {
-    "default_title": "XF MediaCookies",
-    "default_popup": "popup.html",
+    "default_title": "MediaCookies",
+    "default_popup": "dist/popup.html",
     "default_icon": {
-      "16": "icons/icon16.png",
-      "32": "icons/icon32.png",
-      "48": "icons/icon48.png",
-      "128": "icons/icon128.png"
+      "16": "dist/icons/icon16.png",
+      "32": "dist/icons/icon32.png",
+      "48": "dist/icons/icon48.png",
+      "128": "dist/icons/icon128.png"
     }
   },
   "permissions": [
+    "activeTab",
     "cookies",
-    "downloads",
     "storage"
   ],
-  "host_permissions": [
-    "https://bilibili.com/*",
-    "https://*.bilibili.com/*",
-    "https://bilibili.cn/*",
-    "https://*.bilibili.cn/*",
-    "https://biligame.com/*",
-    "https://*.biligame.com/*",
-    "https://youtube.com/*",
-    "https://*.youtube.com/*",
-    "https://google.com/*",
-    "https://*.google.com/*",
-    "https://accounts.google.com/*",
-    "https://douyin.com/*",
-    "https://*.douyin.com/*",
-    "https://tiktok.com/*",
-    "https://*.tiktok.com/*"
-  ],
   "optional_host_permissions": [
-    "<all_urls>"
-  ]
+    "https://*/*"
+  ],
+  "options_ui": {
+    "page": "dist/workbench.html",
+    "open_in_tab": true
+  }
 }

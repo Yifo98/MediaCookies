@@ -1,0 +1,3 @@
+# Request source access on demand
+
+MediaCookies will request host access only when a user checks or exports the current Cookie source. Broad host access is reserved for an explicitly initiated browser-wide scan: users may start it from the “识别整个浏览器” card in quick export or from the export workbench itself. The quick-export entry requests access during the user gesture, then opens the workbench with the recommended media-site scan intent. Every-domain discovery remains an explicit workbench choice. This reduces install-time trust cost and keeps each permission request tied to a visible user goal, while still preserving advanced discovery when the user chooses it.

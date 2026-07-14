@@ -3,110 +3,71 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>XF MediaCookies</title>
-    <link rel="stylesheet" href="./popup.css" />
+    <title>MediaCookies</title>
   </head>
   <body>
-    <main class="shell">
-      <header class="hero">
-        <div>
-          <p class="eyebrow">XF TOOLKIT</p>
-          <h1>XF MediaCookies</h1>
-          <p>只导出你选择的站点 Cookie。不会读取密码，不上传网络。</p>
+    <main class="quick-shell" aria-labelledby="product-name">
+      <header class="quick-header">
+        <div class="quick-meta">
+          <div class="brand-lockup">
+            <span class="brand-mark"><img src="/icons/icon48.png" alt="" /></span>
+            <div>
+              <p class="eyebrow">MEDIA COOKIES</p>
+              <h1 id="product-name">MediaCookies</h1>
+            </div>
+          </div>
+          <label class="language-control">
+            <span class="visually-hidden" data-copy="languageLabel">界面语言</span>
+            <select id="language-select" aria-label="界面语言">
+              <option value="zh-CN">简体中文</option>
+              <option value="en">English</option>
+            </select>
+          </label>
         </div>
+        <p class="quick-tagline" data-copy="quickTagline">为 Media Dock 导出登录状态</p>
       </header>
 
-      <section class="panel prep-panel">
-        <div class="section-title">
-          <div>
-            <h2>导出前检查</h2>
-            <p>先在同一个浏览器打开目标网站，确认账号、会员或目标内容可以正常访问，再预览导出。</p>
+      <section id="passport" class="passport" data-status="loading" aria-live="polite">
+        <div class="passport-heading">
+          <div class="passport-label">
+            <span class="status-beacon" aria-hidden="true"></span>
+            <span data-copy="quickPassportLabel">当前来源通行证</span>
           </div>
+          <p id="source-label" class="source-label" data-copy="quickIdentifying">正在识别当前来源…</p>
+        </div>
+        <div class="passport-copy">
+          <h2 id="status-title" data-copy="quickWait">请稍候</h2>
+          <p id="status-detail" data-copy="quickPrivacy">检查只在本机进行，不会上传 Cookie。</p>
+        </div>
+        <div id="trust-row" class="trust-row" aria-label="隐私保护">
+          <span data-copy="quickLocalOnly">仅在本机处理</span>
+          <span data-copy="quickValueHidden">不显示 Cookie 值</span>
         </div>
       </section>
 
-      <section class="panel">
-        <div class="section-title">
+      <button id="primary-action" class="primary-action" type="button" disabled data-copy="quickChecking">正在检查</button>
+
+      <section class="browser-scan" aria-labelledby="browser-scan-title">
+        <div class="browser-scan-heading">
+          <span class="scan-orb" aria-hidden="true"></span>
           <div>
-            <h2>站点选择</h2>
-            <p>先预览当前浏览器 Cookie，软件会根据 yt-dlp 官方列表生成可导出的来源。</p>
-            <p class="subtle-link-row">
-              更多可解析来源请查看
-              <a href="https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md" target="_blank" rel="noreferrer">yt-dlp 官方 supported sites</a>。
-            </p>
-          </div>
-          <div class="button-row">
-            <button id="select-core" type="button">常用</button>
-            <button id="select-all" type="button">全选</button>
-            <button id="select-none" type="button">清空</button>
+            <p class="eyebrow" data-copy="quickBrowserKicker">浏览器来源工作台</p>
+            <h2 id="browser-scan-title" data-copy="quickBrowserTitle">识别整个浏览器</h2>
           </div>
         </div>
-        <div class="scan-mode">
-          <label>
-            <input type="radio" name="scan-mode" value="supported" checked />
-            <span>默认只保留 yt-dlp 支持站点</span>
-          </label>
-          <label>
-            <input type="radio" name="scan-mode" value="all" />
-            <span>高级：预览全部 Cookie</span>
-          </label>
-        </div>
-        <div class="profile-panel">
-          <div>
-            <strong>常用配置</strong>
-            <small id="common-profile-status">默认常用：B站、YouTube。抖音/TikTok 官方支持部分具体链接，但不会默认加入常用。</small>
-          </div>
-          <div class="button-row">
-            <button id="save-common" type="button">保存当前为常用</button>
-            <button id="export-common" type="button">导出配置</button>
-            <button id="import-common" type="button">导入配置</button>
-            <input id="import-common-file" type="file" accept="application/json,.json" hidden />
-          </div>
-        </div>
-        <div id="service-list" class="service-list"></div>
+        <p data-copy="quickBrowserDetail">优先整理 Media Dock 支持的媒体站点；目标网站没出现时，可在工作台查看全部 Cookie 域名。</p>
+        <button id="scan-browser" class="scan-browser-action" type="button">
+          <span data-copy="quickBrowserAction">授权并扫描媒体站点</span>
+          <span aria-hidden="true">↗</span>
+        </button>
+        <p id="browser-scan-status" class="browser-scan-status" role="status" aria-live="polite" data-copy="quickBrowserPrivacy">只在你点击后申请广泛访问；数据不会上传。</p>
       </section>
 
-      <section class="panel">
-        <div class="section-title">
-          <div>
-            <h2>预览状态</h2>
-            <p>预览只显示域名、名称和有效期，不显示 Cookie 值。</p>
-          </div>
-          <div class="button-row">
-            <button id="preview-button" class="primary" type="button">预览 Cookie</button>
-            <button id="clear-preview-button" type="button">清空预览</button>
-            <button id="export-log-button" type="button">导出日志</button>
-            <button id="export-button" class="accent" type="button">导出 ZIP</button>
-          </div>
-        </div>
-
-        <p id="status-box" class="status status--idle">点击“预览 Cookie”后会请求浏览器站点权限。默认只保留能匹配 yt-dlp 官方支持站点的 Cookie，其他 Cookie 不进入后续选择或导出；预览不会生成缓存文件。</p>
-        <div id="summary-box" class="summary"></div>
-
-        <div class="table-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>域名</th>
-                <th>名称</th>
-                <th>路径</th>
-                <th>过期时间</th>
-                <th>状态</th>
-                <th>HttpOnly</th>
-                <th>Secure</th>
-                <th>站点包</th>
-              </tr>
-            </thead>
-            <tbody id="cookie-table-body"></tbody>
-          </table>
-          <p id="cookie-table-empty" class="empty">还没有预览数据。</p>
-        </div>
-      </section>
-
-      <footer>
-        导出的 ZIP 可直接在 Media Dock 的 Cookies 区导入，也可放入 <strong>Media Dock Data/cookies/</strong>。Cookie 属于敏感登录数据，请只保存在自己的设备上。
-      </footer>
+      <button id="open-workbench" class="workbench-link" type="button">
+        <span data-copy="quickOpenWorkbench">仅打开导出工作台</span>
+        <span aria-hidden="true">→</span>
+      </button>
     </main>
-    <script type="module" src="./popup.js"></script>
+    <script type="module" src="/src/ui/quick-export/main.ts"></script>
   </body>
 </html>

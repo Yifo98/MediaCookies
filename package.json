@@ -1,13 +1,24 @@
 {
   "name": "media-cookies",
   "private": true,
-  "version": "0.1.8",
+  "version": "0.2.0",
   "type": "module",
-  "description": "XF MediaCookies browser extension for exporting selected cookies into Media Dock compatible packages.",
+  "description": "MediaCookies browser extension for exporting selected cookies into Media Dock compatible packages.",
   "scripts": {
     "validate": "node scripts/validate.mjs",
-    "build": "node scripts/build.mjs",
+    "validate:assets": "node scripts/validate-assets.mjs",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit",
+    "build": "vite build && node scripts/build.mjs",
     "package": "node scripts/package.mjs",
-    "check": "npm run validate && npm run build && npm run package"
+    "check": "npm run validate && npm run validate:assets && npm run test && npm run typecheck && npm run build && npm run package"
+  },
+  "devDependencies": {
+    "@types/chrome": "0.2.2",
+    "@types/node": "26.1.1",
+    "typescript": "7.0.2",
+    "vite": "8.1.4",
+    "vitest": "4.1.10"
   }
 }

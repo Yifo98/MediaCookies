@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MediaCookies icon proof</title>
+    <style>
+      * { box-sizing: border-box; }
+      body { margin: 0; padding: 48px; color: #293039; background: #eee8de; font-family: Inter, system-ui, sans-serif; }
+      h1, p { margin: 0; }
+      header { display: grid; gap: 8px; margin-bottom: 32px; }
+      header p { color: #68717a; }
+      .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+      .card { display: grid; gap: 22px; border-radius: 28px; padding: 28px; background: #fffdf8; box-shadow: 0 16px 44px rgba(41,48,57,.08); }
+      .card.dark { color: #f8f5ef; background: #242a31; }
+      .sizes { display: flex; align-items: end; gap: 26px; min-height: 150px; }
+      figure { display: grid; justify-items: center; gap: 10px; margin: 0; color: #7a828a; font-size: 12px; }
+      .dark figure { color: #b9c0c5; }
+      img { display: block; }
+      .actual { display: flex; align-items: center; gap: 18px; min-height: 40px; }
+      .actual span { font-size: 12px; opacity: .75; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>MediaCookies · 通行印记</h1>
+      <p>透明工具栏版 + 128px 商店展示版；浅色与深色主题校验。</p>
+    </header>
+    <main class="grid">
+      <section class="card">
+        <h2>Light</h2>
+        <div class="sizes">
+          <figure><img src="../../../icons/icon16.png" width="64" height="64" /><figcaption>16px · 4×</figcaption></figure>
+          <figure><img src="../../../icons/icon32.png" width="96" height="96" /><figcaption>32px · 3×</figcaption></figure>
+          <figure><img src="../../../icons/icon48.png" width="120" height="120" /><figcaption>48px · 2.5×</figcaption></figure>
+        </div>
+        <div class="actual">
+          <img src="../../../icons/icon16.png" width="16" height="16" />
+          <img src="../../../icons/icon32.png" width="32" height="32" />
+          <img src="../../../icons/icon48.png" width="48" height="48" />
+          <span>实际像素</span>
+        </div>
+      </section>
+      <section class="card dark">
+        <h2>Dark</h2>
+        <div class="sizes">
+          <figure><img src="../../../icons/icon16.png" width="64" height="64" /><figcaption>16px · 4×</figcaption></figure>
+          <figure><img src="../../../icons/icon32.png" width="96" height="96" /><figcaption>32px · 3×</figcaption></figure>
+          <figure><img src="../../../icons/icon48.png" width="120" height="120" /><figcaption>48px · 2.5×</figcaption></figure>
+        </div>
+        <div class="actual">
+          <img src="../../../icons/icon16.png" width="16" height="16" />
+          <img src="../../../icons/icon32.png" width="32" height="32" />
+          <img src="../../../icons/icon48.png" width="48" height="48" />
+          <span>实际像素</span>
+        </div>
+      </section>
+      <section class="card" style="grid-column: 1 / -1; grid-template-columns: 1fr auto; align-items: center;">
+        <div>
+          <h2>Chrome Web Store</h2>
+          <p style="margin-top: 8px; color:#68717a;">128 × 128 · 96px artwork zone · 16px transparent padding</p>
+        </div>
+        <img src="../../../icons/icon128.png" width="128" height="128" />
+      </section>
+    </main>
+  </body>
+</html>

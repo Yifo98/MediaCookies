@@ -23,6 +23,7 @@ export const SERVICE_RULES = [
         slug: 'bilibili-b-site',
         title: 'Bilibili / B站',
         shortTitle: 'B站',
+        pageDomains: ['bilibili.com', 'bilibili.cn', 'b23.tv'],
         note: 'B站及相关登录域名。用于会员、高清画质和 412/403 情况。',
         domains: ['bilibili.com', 'bilibili.cn', 'biligame.com', 'live.bilibili.com'],
         origins: subdomainOrigins(['bilibili.com', 'bilibili.cn', 'biligame.com']),
@@ -41,6 +42,7 @@ export const SERVICE_RULES = [
         slug: 'youtube',
         title: 'YouTube',
         shortTitle: 'YouTube',
+        pageDomains: ['youtube.com', 'youtu.be'],
         note: 'YouTube 及 Google 登录域名。用于年龄限制、会员或登录态内容。',
         domains: ['youtube.com', 'google.com', 'accounts.google.com'],
         origins: [...subdomainOrigins(['youtube.com', 'google.com']), 'https://accounts.google.com/*'],
@@ -59,6 +61,7 @@ export const SERVICE_RULES = [
         slug: 'douyin',
         title: 'Douyin / 抖音',
         shortTitle: '抖音',
+        pageDomains: ['douyin.com'],
         note: '抖音网页及创作者域名。yt-dlp 官方支持单条 /video/{id}，推荐页/精选页需要先转成具体视频链接。',
         domains: ['douyin.com', 'www.douyin.com', 'creator.douyin.com', 'open.douyin.com'],
         origins: subdomainOrigins(['douyin.com']),
@@ -78,6 +81,7 @@ export const SERVICE_RULES = [
         slug: 'tiktok',
         title: 'TikTok',
         shortTitle: 'TikTok',
+        pageDomains: ['tiktok.com'],
         note: 'TikTok 网页域名。yt-dlp 官方支持 @user/video/{id}、短链、用户页和直播等；/foryou 不是下载目标页。',
         domains: ['tiktok.com'],
         origins: subdomainOrigins(['tiktok.com']),
@@ -133,6 +137,9 @@ const SUPPORTED_DOMAIN_ALIASES = new Map([
     ['soundcloud.com', 'soundcloud'],
     ['twitch.tv', 'twitch'],
 ]);
+const CURRENT_SOURCE_EXCLUSIONS = new Set([
+    'google.com',
+]);
 export function getCommonServiceSlugs(rules = SERVICE_RULES) {
     return rules.filter((rule) => rule.defaultCommon).map((rule) => rule.slug);
 }
@@ -142,6 +149,15 @@ export function getServiceRules(slugs, rules = SERVICE_RULES) {
 }
 export function findServiceRule(slug, rules = SERVICE_RULES) {
     return rules.find((rule) => rule.slug === slug) ?? null;
+}
+export function findCurrentSourceRule(domain) {
+    const curatedRule = SERVICE_RULES.find((rule) => rule.pageDomains.some((pageDomain) => domainMatches(domain, pageDomain)));
+    if (curatedRule)
+        return curatedRule;
+    const groupKey = getDomainGroupKey(domain);
+    if (CURRENT_SOURCE_EXCLUSIONS.has(groupKey))
+        return null;
+    return buildYtDlpRule(groupKey);
 }
 export function buildDetectedServiceRules(cookies, mode) {
     const bySlug = new Map();
