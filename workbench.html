@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MediaCookies 导出工作台</title>
+  </head>
+  <body>
+    <main class="workbench-shell" aria-labelledby="workbench-title">
+      <header class="workbench-hero">
+        <div>
+          <div class="workbench-meta">
+            <p class="eyebrow">MEDIA DOCK</p>
+            <label class="language-control">
+              <span data-copy="languageLabel">界面语言</span>
+              <select id="language-select">
+                <option value="zh-CN">简体中文</option>
+                <option value="en">English</option>
+              </select>
+            </label>
+          </div>
+          <h1 id="workbench-title" data-copy="workbenchTitle">导出工作台</h1>
+          <p data-copy="workbenchSubtitle">检查、筛选并导出需要的 Cookie 来源。</p>
+        </div>
+        <div class="scan-scope">
+          <span id="scan-scope-label" class="scan-scope-label" data-copy="scanScopeLabel">扫描范围</span>
+          <div class="hero-actions" role="group" aria-labelledby="scan-scope-label">
+            <button id="scan-supported" class="scan-scope-button" type="button" aria-pressed="false" aria-describedby="scan-scope-help" data-copy="scanSupported">媒体站点（推荐）</button>
+            <button id="scan-all" class="scan-scope-button" type="button" aria-pressed="false" aria-describedby="scan-scope-help" data-copy="scanAll">全部 Cookie 域名</button>
+          </div>
+          <p id="scan-scope-help" class="scan-scope-help" data-copy="scanScopeHelp">两种扫描使用相同的本地授权。推荐先查看 Media Dock 下载工具（yt-dlp）支持的媒体站点；范围只决定显示哪些域名，“可以导出 / 需确认 / 请先登录”表示登录状态。目标网站没出现时，再查看全部 Cookie 域名。</p>
+        </div>
+      </header>
+
+      <section class="permission-note" aria-labelledby="permission-title">
+        <span class="permission-orb" aria-hidden="true"></span>
+        <div>
+          <h2 id="permission-title" data-copy="permissionTitle">仅在你主动扫描时申请广泛访问</h2>
+          <p data-copy="permissionDetail">工作台需要查看浏览器中的 Cookie 才能发现来源。数据只在本次页面内存中处理，不上传，也不显示 Cookie 值。</p>
+        </div>
+      </section>
+
+      <p id="workbench-status" class="workbench-status" role="status" aria-live="polite" data-copy="workbenchInitialStatus">尚未扫描。建议先使用“媒体站点（推荐）”。</p>
+
+      <section class="workbench-grid">
+        <article class="workbench-panel source-panel" aria-labelledby="sources-title">
+          <header class="panel-heading">
+            <div>
+              <p class="panel-kicker">SOURCES</p>
+              <h2 id="sources-title" data-copy="sourcesTitle">Cookie 来源</h2>
+            </div>
+            <div class="compact-actions">
+              <button id="select-common" class="text-button" type="button" disabled data-copy="selectCommon">常用</button>
+              <button id="save-common" class="text-button" type="button" disabled data-copy="saveCommon">保存常用</button>
+              <button id="select-all" class="text-button" type="button" disabled data-copy="selectAll">全选</button>
+              <button id="select-none" class="text-button" type="button" disabled data-copy="selectNone">清空</button>
+            </div>
+          </header>
+          <div id="source-list" class="source-list">
+            <p class="empty-state" data-copy="sourceEmpty">扫描后，这里会显示可导出的来源。</p>
+          </div>
+        </article>
+
+        <article class="workbench-panel summary-panel" aria-labelledby="summary-title">
+          <header class="panel-heading">
+            <div>
+              <p class="panel-kicker">READINESS</p>
+              <h2 id="summary-title" data-copy="summaryTitle">导出摘要</h2>
+            </div>
+          </header>
+          <div id="summary-grid" class="summary-grid">
+            <div><strong>—</strong><span data-copy="summarySelected">已选来源</span></div>
+            <div><strong>—</strong><span data-copy="summaryCookies">Cookie 条目</span></div>
+            <div><strong>—</strong><span data-copy="summaryAtRisk">需确认</span></div>
+            <div><strong>—</strong><span data-copy="summaryIgnored">忽略条目</span></div>
+          </div>
+        </article>
+      </section>
+
+      <section class="workbench-panel preview-panel" aria-labelledby="preview-title">
+        <header class="panel-heading">
+          <div>
+            <p class="panel-kicker">SAFE PREVIEW</p>
+            <h2 id="preview-title" data-copy="previewTitle">安全预览</h2>
+            <p data-copy="previewDetail">只显示域名、名称、状态和安全标记；Cookie 值不会进入表格。</p>
+          </div>
+        </header>
+        <div class="table-shell">
+          <table>
+            <thead>
+              <tr>
+                <th data-copy="columnDomain">域名</th>
+                <th data-copy="columnName">名称</th>
+                <th data-copy="columnPath">路径</th>
+                <th data-copy="columnExpiry">有效期</th>
+                <th data-copy="columnStatus">状态</th>
+                <th data-copy="columnSecurity">安全标记</th>
+                <th data-copy="columnSource">来源</th>
+              </tr>
+            </thead>
+            <tbody id="preview-body"></tbody>
+          </table>
+          <p id="preview-empty" class="empty-state" data-copy="previewEmpty">还没有预览数据。</p>
+        </div>
+      </section>
+
+      <footer class="export-bar">
+        <div>
+          <strong id="selection-label" data-copy="selectionNone">尚未选择来源</strong>
+          <span data-copy="exportPrivacy">导出后，本次扫描会立即从内存清除。</span>
+        </div>
+        <div class="export-actions">
+          <button id="clear-scan" class="secondary" type="button" disabled data-copy="clearScan">清除本次扫描</button>
+          <button id="export-selected" type="button" disabled data-copy="exportSelected">导出所选来源</button>
+        </div>
+      </footer>
+    </main>
+    <script type="module" src="/src/ui/workbench/main.ts"></script>
+  </body>
+</html>

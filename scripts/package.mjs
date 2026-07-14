@@ -1,12 +1,12 @@
 import { mkdir, readdir, readFile, writeFile } from 'node:fs/promises'
 import { join, relative } from 'node:path'
-import { buildZip } from '../dist/zip.js'
+import { buildZip } from '../zip.js'
 
 const rootDir = process.cwd()
 const distDir = join(rootDir, 'dist')
 const releaseDir = join(rootDir, 'release')
 const manifest = JSON.parse(await readFile(join(distDir, 'manifest.json'), 'utf8'))
-const zipPath = join(releaseDir, `media-dock-cookie-exporter-${manifest.version}.zip`)
+const zipPath = join(releaseDir, `mediacookies-${manifest.version}.zip`)
 
 async function collectFiles(dir) {
   const entries = await readdir(dir, { withFileTypes: true })

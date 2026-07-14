@@ -1,59 +1,21 @@
 import { buildDetectedServiceRules, cookieMatchesRule, getDomainGroupKey, getServiceRules, normalizeDomain, } from './service-rules.js';
-const EXPIRING_SOON_SECONDS = 24 * 60 * 60;
-const ALL_URLS_ORIGIN = '<all_urls>';
-export function uniqueSorted(values) {
+function uniqueSorted(values) {
     return [...new Set(values)].sort((left, right) => left.localeCompare(right));
-}
-export function getRequiredOrigins(slugs) {
-    return uniqueSorted(getServiceRules(slugs).flatMap((rule) => rule.origins));
-}
-export async function ensureHostPermissions(origins) {
-    if (origins.length === 0)
-        return;
-    if (!chrome.permissions?.contains)
-        return;
-    const request = { origins };
-    const alreadyGranted = await new Promise((resolve) => {
-        chrome.permissions?.contains(request, resolve);
-    });
-    if (alreadyGranted)
-        return;
-    throw new Error('当前浏览器没有授予扩展站点权限。请重新加载扩展，或确认浏览器允许它访问支持的视频站点。');
-}
-export async function ensureAllCookiePermission() {
-    if (!chrome.permissions?.contains || !chrome.permissions?.request)
-        return;
-    const request = { origins: [ALL_URLS_ORIGIN] };
-    const alreadyGranted = await new Promise((resolve) => {
-        chrome.permissions?.contains(request, resolve);
-    });
-    if (alreadyGranted)
-        return;
-    const granted = await new Promise((resolve) => {
-        chrome.permissions?.request(request, resolve);
-    });
-    if (!granted) {
-        throw new Error('需要授予“读取所有网站 Cookie”的临时权限，才能先分析当前浏览器里哪些 Cookie 对应 yt-dlp 官方支持站点。插件不会上传数据，也不会显示 Cookie 值。');
-    }
-}
-export async function previewCookieSources(mode) {
-    await ensureAllCookiePermission();
-    const allCookies = await collectAllCookies();
-    return buildCookiePreviewScan(allCookies, mode);
 }
 export function buildCookiePreviewScan(allCookies, mode, generatedAt = new Date().toISOString()) {
     const timestampSlug = formatTimestampSlug(new Date(generatedAt));
-    const rules = buildDetectedServiceRules(allCookies, mode);
-    const cookies = filterCookiesByRules(allCookies, rules);
+    const uniqueCookies = dedupeCookies(allCookies).sort(sortCookies);
+    const rules = buildDetectedServiceRules(uniqueCookies, mode);
+    const cookies = filterCookiesByRules(uniqueCookies, rules);
     return {
         generatedAt,
         timestampSlug,
         mode,
-        allCookies,
+        allCookies: uniqueCookies,
         cookies,
         rules,
         supportedCookieCount: cookies.length,
-        ignoredCookieCount: mode === 'all' ? 0 : Math.max(0, allCookies.length - cookies.length),
+        ignoredCookieCount: mode === 'all' ? 0 : Math.max(0, uniqueCookies.length - cookies.length),
     };
 }
 export function buildCookieExportFromScan(scan, slugs) {
@@ -91,73 +53,8 @@ export function buildCookieExportFromScan(scan, slugs) {
         manifest,
     };
 }
-export async function buildCookieExport(slugs) {
-    const rules = getServiceRules(slugs);
-    if (rules.length === 0) {
-        throw new Error('请至少选择一个站点。');
-    }
-    await ensureHostPermissions(getRequiredOrigins(slugs));
-    const cookies = await collectCookies(rules);
-    const generatedAt = new Date().toISOString();
-    const timestampSlug = formatTimestampSlug(new Date(generatedAt));
-    const cookieServices = mapCookieServices(cookies, rules);
-    const serviceSummaries = rules.map((rule) => buildServiceSummary(rule, cookies));
-    const previewRows = buildPreviewRows(cookies, cookieServices);
-    const files = buildExportFiles({
-        cookies,
-        generatedAt,
-        timestampSlug,
-        scanMode: 'supported',
-        rules,
-        cookieServices,
-        previewRows,
-        serviceSummaries,
-        files: new Map(),
-        manifest: emptyManifest(generatedAt, 'supported'),
-    });
-    const manifest = JSON.parse(files.get('manifest.json') ?? '{}');
-    return {
-        generatedAt,
-        timestampSlug,
-        scanMode: 'supported',
-        rules,
-        cookies,
-        cookieServices,
-        previewRows,
-        serviceSummaries,
-        files,
-        manifest,
-    };
-}
-async function collectAllCookies() {
-    const allCookies = await new Promise((resolve) => {
-        chrome.cookies.getAll({}, resolve);
-    });
-    return dedupeCookies(allCookies.map(toExportCookie)).sort(sortCookies);
-}
-async function collectCookies(rules) {
-    const allCookies = await collectAllCookies();
-    return filterCookiesByRules(allCookies, rules);
-}
 function filterCookiesByRules(cookies, rules) {
     return cookies.filter((cookie) => rules.some((rule) => cookieMatchesRule(cookie, rule))).sort(sortCookies);
-}
-function toExportCookie(cookie) {
-    const expirationDate = cookie.session ? 0 : Math.floor(cookie.expirationDate ?? 0);
-    return {
-        domain: cookie.domain,
-        hostOnly: cookie.hostOnly,
-        httpOnly: cookie.httpOnly,
-        name: cookie.name,
-        path: cookie.path,
-        sameSite: cookie.sameSite,
-        secure: cookie.secure,
-        session: cookie.session,
-        storeId: cookie.storeId,
-        value: cookie.value,
-        expirationDate,
-        expiryStatus: getExpiryStatus(expirationDate),
-    };
 }
 function dedupeCookies(cookies) {
     const byKey = new Map();
@@ -173,16 +70,6 @@ function sortCookies(left, right) {
     return (normalizeDomain(left.domain).localeCompare(normalizeDomain(right.domain)) ||
         left.path.localeCompare(right.path) ||
         left.name.localeCompare(right.name));
-}
-function getExpiryStatus(expirationDate) {
-    if (!expirationDate)
-        return 'session';
-    const now = Math.floor(Date.now() / 1000);
-    if (expirationDate < now)
-        return 'expired';
-    if (expirationDate < now + EXPIRING_SOON_SECONDS)
-        return 'soon';
-    return 'valid';
 }
 function mapCookieServices(cookies, rules) {
     const result = new Map();

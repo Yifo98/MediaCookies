@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MediaCookies store screenshot</title>
+    <style>
+      * { box-sizing: border-box; }
+      html, body { width: 1280px; height: 800px; margin: 0; overflow: hidden; }
+      body {
+        position: relative;
+        display: grid;
+        grid-template-columns: 1fr 500px;
+        gap: 70px;
+        padding: 76px 82px;
+        color: #293039;
+        background:
+          radial-gradient(circle at 8% 4%, rgba(99, 194, 203, .25), transparent 25rem),
+          radial-gradient(circle at 92% 12%, rgba(155, 132, 204, .22), transparent 28rem),
+          #f7f3eb;
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+      body::after {
+        position: absolute;
+        right: 500px;
+        bottom: -180px;
+        width: 460px;
+        height: 460px;
+        border: 1px solid rgba(41, 48, 57, .08);
+        border-radius: 50%;
+        content: "";
+      }
+      .copy {
+        position: relative;
+        z-index: 1;
+        display: grid;
+        align-content: center;
+        gap: 24px;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        font-size: 18px;
+        font-weight: 800;
+        letter-spacing: -.02em;
+      }
+      .brand img { width: 56px; height: 56px; }
+      .eyebrow {
+        width: max-content;
+        border-radius: 999px;
+        padding: 9px 13px;
+        color: #376e77;
+        background: rgba(99, 194, 203, .16);
+        font-size: 12px;
+        font-weight: 800;
+        letter-spacing: .13em;
+      }
+      h1 {
+        max-width: 640px;
+        margin: 0;
+        font-size: 58px;
+        line-height: 1.08;
+        letter-spacing: -.055em;
+        white-space: pre-line;
+      }
+      .subtitle {
+        max-width: 570px;
+        margin: 0;
+        color: #65707a;
+        font-size: 20px;
+        line-height: 1.65;
+      }
+      .steps { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
+      .steps span {
+        border: 1px solid rgba(41, 48, 57, .1);
+        border-radius: 999px;
+        padding: 9px 13px;
+        color: #53606b;
+        background: rgba(255, 255, 255, .5);
+        font-size: 13px;
+        font-weight: 700;
+      }
+      .product-stage {
+        position: relative;
+        z-index: 1;
+        display: grid;
+        place-items: center;
+        border: 1px solid rgba(41, 48, 57, .1);
+        border-radius: 42px;
+        background: rgba(255, 255, 255, .62);
+        box-shadow: 0 32px 80px rgba(41, 48, 57, .14);
+        backdrop-filter: blur(24px);
+      }
+      .product-stage::before,
+      .product-stage::after {
+        position: absolute;
+        border-radius: 50%;
+        content: "";
+      }
+      .product-stage::before { top: 34px; right: 34px; width: 16px; height: 16px; background: #67c2cb; }
+      .product-stage::after { right: 60px; bottom: 40px; width: 12px; height: 12px; background: #9b84cc; }
+      .popup-capture {
+        display: block;
+        width: 360px;
+        height: 518px;
+        border-radius: 5px;
+        box-shadow: 0 18px 48px rgba(41, 48, 57, .2);
+      }
+    </style>
+  </head>
+  <body>
+    <section class="copy">
+      <div class="brand"><img src="../../../icons/icon128.png" alt="" />MediaCookies</div>
+      <div id="eyebrow" class="eyebrow"></div>
+      <h1 id="headline"></h1>
+      <p id="subtitle" class="subtitle"></p>
+      <div id="steps" class="steps"></div>
+    </section>
+    <section class="product-stage">
+      <img id="capture" class="popup-capture" alt="MediaCookies extension UI" />
+    </section>
+    <script>
+      const shots = {
+        ready: {
+          lang: 'zh-CN',
+          eyebrow: '快速导出',
+          headline: '打开媒体页\n一键交给 Media Dock',
+          subtitle: '自动识别当前来源，只在需要时申请访问。Media Dock 用户无需理解 Cookie 或 yt-dlp。',
+          steps: ['1 · 当前媒体页', '2 · 本地 Cookie 包', '3 · Media Dock'],
+          capture: 'captures/popup-ready-zh.png',
+        },
+        signin: {
+          lang: 'zh-CN',
+          eyebrow: '清晰状态',
+          headline: '状态先说明\n下一步自然就懂',
+          subtitle: '“请先登录”直接告诉你该做什么。没有登录状态时，不会生成无效导出包。',
+          steps: ['可以导出', '请先登录', '可能失效', '当前网页不支持'],
+          capture: 'captures/popup-signin-zh.png',
+        },
+        exported: {
+          lang: 'en',
+          eyebrow: 'LOCAL HANDOFF',
+          headline: 'From a signed-in page\nto Media Dock',
+          subtitle: 'A compatible Cookie package stays on your device, ready for Media Dock import.',
+          steps: ['Current source', 'Local Cookie package', 'Media Dock'],
+          capture: 'captures/popup-exported-en.png',
+        },
+      }
+      const selected = shots[new URLSearchParams(location.search).get('shot')] ?? shots.ready
+      document.documentElement.lang = selected.lang
+      document.getElementById('eyebrow').textContent = selected.eyebrow
+      document.getElementById('headline').textContent = selected.headline
+      document.getElementById('subtitle').textContent = selected.subtitle
+      document.getElementById('capture').src = selected.capture
+      selected.steps.forEach((label) => {
+        const span = document.createElement('span')
+        span.textContent = label
+        document.getElementById('steps').append(span)
+      })
+    </script>
+  </body>
+</html>

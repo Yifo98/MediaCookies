@@ -1,0 +1,384 @@
+:root {
+  color: #293039;
+  background: #f7f3eb;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-synthesis: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #f4f1ea;
+}
+
+button {
+  min-height: 44px;
+  border: 0;
+  border-radius: 14px;
+  padding: 0 18px;
+  color: #fdfbf7;
+  background: #293039;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: wait;
+  opacity: 0.55;
+}
+
+button:focus-visible {
+  outline: 3px solid #62b9c4;
+  outline-offset: 3px;
+}
+
+select:focus-visible {
+  outline: 3px solid #62b9c4;
+  outline-offset: 3px;
+}
+
+.secondary {
+  color: #293039;
+  background: #e8e2d7;
+}
+
+.eyebrow {
+  margin: 0;
+  color: #3f6872;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+}
+
+.quick-shell {
+  position: relative;
+  display: grid;
+  gap: 12px;
+  width: 400px;
+  min-height: 576px;
+  overflow: hidden;
+  padding: 18px;
+  background:
+    radial-gradient(circle at 5% 0%, rgba(98, 185, 196, 0.23), transparent 14rem),
+    radial-gradient(circle at 100% 36%, rgba(160, 140, 202, 0.18), transparent 15rem),
+    #f7f3eb;
+}
+
+.quick-shell::before {
+  position: absolute;
+  top: -96px;
+  right: -88px;
+  width: 190px;
+  height: 190px;
+  border: 1px solid rgba(79, 146, 156, 0.13);
+  border-radius: 50%;
+  content: "";
+  pointer-events: none;
+}
+
+.quick-shell h1,
+.quick-shell h2,
+.quick-shell p,
+.workbench-shell h1,
+.workbench-shell h2,
+.workbench-shell p {
+  margin-block: 0;
+}
+
+.quick-header,
+.workbench-shell header,
+.workbench-placeholder {
+  display: grid;
+  gap: 8px;
+}
+
+.quick-meta,
+.workbench-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.brand-lockup {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.brand-lockup > div {
+  display: grid;
+  gap: 2px;
+}
+
+.brand-lockup h1 {
+  font-size: 19px;
+  letter-spacing: -0.035em;
+  line-height: 1;
+}
+
+.brand-mark {
+  display: grid;
+  width: 38px;
+  height: 38px;
+  place-items: center;
+  border: 1px solid rgba(41, 48, 57, 0.08);
+  border-radius: 13px;
+  background: rgba(255, 253, 248, 0.82);
+  box-shadow: 0 10px 24px rgba(41, 48, 57, 0.1);
+}
+
+.brand-mark img {
+  width: 38px;
+  height: 38px;
+}
+
+.quick-tagline {
+  color: #5c6670;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.language-control {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #68717a;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.language-control select {
+  border: 1px solid rgba(41, 48, 57, 0.14);
+  border-radius: 10px;
+  padding: 6px 8px;
+  color: #293039;
+  background: rgba(255, 255, 255, 0.72);
+  font: inherit;
+}
+
+.passport,
+.workbench-placeholder {
+  border: 1px solid rgba(41, 48, 57, 0.12);
+  border-radius: 22px;
+  padding: 18px;
+  background: rgba(255, 255, 255, 0.62);
+  box-shadow: 0 18px 42px rgba(41, 48, 57, 0.08);
+}
+
+.passport {
+  position: relative;
+  display: grid;
+  gap: 14px;
+  overflow: hidden;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.92), rgba(249, 246, 239, 0.78));
+  backdrop-filter: blur(18px);
+}
+
+.passport::after {
+  position: absolute;
+  right: -36px;
+  bottom: -54px;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(98, 185, 196, 0.14), transparent 68%);
+  content: "";
+  pointer-events: none;
+}
+
+.passport-heading,
+.passport-label,
+.trust-row,
+.browser-scan-heading,
+.scan-browser-action,
+.workbench-link {
+  display: flex;
+  align-items: center;
+}
+
+.passport-heading {
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.passport-label {
+  gap: 7px;
+  color: #52606a;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+
+.status-beacon {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #9a8bbd;
+  box-shadow: 0 0 0 5px rgba(160, 140, 202, 0.12);
+}
+
+.passport[data-status="ready"] .status-beacon {
+  background: #4b9ba1;
+  box-shadow: 0 0 0 5px rgba(98, 185, 196, 0.15);
+}
+
+.passport[data-status="at-risk"] .status-beacon,
+.passport[data-status="access"] .status-beacon {
+  background: #c59c43;
+  box-shadow: 0 0 0 5px rgba(213, 183, 105, 0.17);
+}
+
+.passport[data-status="sign-in"] .status-beacon,
+.passport[data-status="error"] .status-beacon {
+  background: #c16d64;
+  box-shadow: 0 0 0 5px rgba(207, 108, 96, 0.15);
+}
+
+.source-label {
+  max-width: 150px;
+  overflow: hidden;
+  color: #3f6872;
+  font-size: 12px;
+  font-weight: 800;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.passport-copy {
+  display: grid;
+  gap: 6px;
+}
+
+.passport-copy h2 {
+  font-size: 27px;
+  letter-spacing: -0.055em;
+}
+
+.passport-copy p {
+  max-width: 320px;
+  color: #59656f;
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.trust-row {
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.trust-row span {
+  border: 1px solid rgba(41, 48, 57, 0.08);
+  border-radius: 999px;
+  padding: 5px 9px;
+  color: #53616a;
+  background: rgba(247, 243, 235, 0.72);
+  font-size: 10px;
+  font-weight: 750;
+}
+
+.primary-action {
+  width: 100%;
+  min-height: 48px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #303740, #20272f);
+  box-shadow: 0 14px 28px rgba(41, 48, 57, 0.18);
+}
+
+.browser-scan {
+  display: grid;
+  gap: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 22px;
+  padding: 16px;
+  color: #f9f6ef;
+  background:
+    radial-gradient(circle at 88% 8%, rgba(160, 140, 202, 0.3), transparent 8rem),
+    linear-gradient(145deg, #333b44, #242b33);
+  box-shadow: 0 18px 38px rgba(41, 48, 57, 0.18);
+}
+
+.browser-scan-heading {
+  gap: 10px;
+}
+
+.browser-scan-heading > div {
+  display: grid;
+  gap: 2px;
+}
+
+.browser-scan .eyebrow {
+  color: #93d5da;
+  font-size: 9px;
+}
+
+.browser-scan h2 {
+  font-size: 18px;
+  letter-spacing: -0.03em;
+}
+
+.browser-scan > p {
+  color: #c9d0d4;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.scan-orb {
+  width: 34px;
+  height: 34px;
+  flex: 0 0 auto;
+  border: 7px solid rgba(255, 255, 255, 0.78);
+  border-right-color: #74c5ce;
+  border-bottom-color: #a58acb;
+  border-radius: 50%;
+  transform: rotate(-16deg);
+}
+
+.scan-browser-action {
+  justify-content: space-between;
+  min-height: 42px;
+  color: #293039;
+  background: #fbf8f1;
+}
+
+.browser-scan-status {
+  color: #aeb9bf !important;
+  font-size: 10px !important;
+}
+
+.workbench-link {
+  justify-content: space-between;
+  min-height: 40px;
+  padding: 0 4px;
+  color: #44515b;
+  background: transparent;
+  font-size: 12px;
+  box-shadow: none;
+}
+
+.workbench-link:hover {
+  color: #1f6971;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  clip-path: inset(50%);
+}
+
+.workbench-shell {
+  display: grid;
+  gap: 24px;
+  width: min(1120px, calc(100% - 40px));
+  margin: 0 auto;
+  padding: 48px 0;
+}

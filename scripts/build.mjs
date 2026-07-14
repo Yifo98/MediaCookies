@@ -1,25 +1,19 @@
-import { cp, mkdir, rm } from 'node:fs/promises'
+import { cp, mkdir } from 'node:fs/promises'
 import { join } from 'node:path'
 
 const rootDir = process.cwd()
 const distDir = join(rootDir, 'dist')
-const files = [
-  'manifest.json',
-  'popup.html',
-  'popup.css',
-  'popup.js',
-  'cookie-export.js',
-  'service-rules.js',
-  'zip.js',
-  'yt-dlp-supported-sites.js',
-  'icons',
-]
 
-await rm(distDir, { recursive: true, force: true })
-await mkdir(distDir, { recursive: true })
+const iconNames = ['icon16.png', 'icon32.png', 'icon48.png', 'icon128.png']
+const distIconsDir = join(distDir, 'icons')
 
-await Promise.all(
-  files.map((file) => cp(join(rootDir, file), join(distDir, file), { recursive: true })),
-)
+await mkdir(distIconsDir, { recursive: true })
+await Promise.all([
+  cp(join(rootDir, 'manifest.production.json'), join(distDir, 'manifest.json')),
+  ...iconNames.map((iconName) => cp(
+    join(rootDir, 'icons', iconName),
+    join(distIconsDir, iconName),
+  )),
+])
 
-console.log(`Built extension files in ${distDir}`)
+console.log(`Completed extension build in ${distDir}`)
