@@ -33,6 +33,13 @@ An explicit permission passage carries local sign-in state from a browser page i
 - UI images enter with soft perspective lift and settle; permission labels lock into place.
 - Ambient elements use finite breathing and drift loops only.
 
+## Language editions
+
+- The composition exposes a declared `language` variable with `zh-CN` as the default and `en` as the alternate.
+- Both editions use the same eight scenes, 40-second authored timing, and 28-second accelerated delivery so publishing comparisons stay honest.
+- The Simplified Chinese edition is intended for WeChat Official Account publishing; the English edition is intended for X.
+- Available real product captures switch with the edition. When a localized production state was not available, the scene keeps the accurate real capture and relies on localized editorial copy rather than fabricating interface evidence.
+
 ## Privacy constraints
 
 - No real credentials, accounts, private links, Cookie values, user paths, or notifications.

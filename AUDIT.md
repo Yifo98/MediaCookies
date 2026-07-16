@@ -24,8 +24,8 @@ The supplied execution package was audited before implementation. Its referenced
 | `manifest.json`, `manifest.production.json` | Updated visible product naming only; the permission set and entry points are unchanged. |
 | `README.md`, `docs/brand/*` | Updated the public brand story, icon rules, proof sheet, and publishing guidance. |
 | `docs/store/*`, `docs/github/*` | Regenerated five Chrome Web Store screenshots, promo tiles, README hero, and GitHub social preview. |
-| `docs/video/qidu-demo/` | Added the 40-second authored composition, 28-second accelerated delivery, real product captures, source ledger, and QA snapshots. |
-| Execution-package `OUTPUT/` | Delivered eight 1920×1080 screenshots, the final MP4, contact sheet, report, and local release candidate. |
+| `docs/video/qidu-demo/` | Added bilingual 40-second authored masters, matching 28-second accelerated deliveries, real product captures, source ledger, and QA snapshots. |
+| Execution-package `OUTPUT/` | Delivered eight Simplified Chinese and eight English 1920×1080 screenshots, two final MP4s, bilingual contact sheets, report, and local release candidate. |
 
 ## Preserved functional boundary
 
@@ -57,7 +57,7 @@ All captures use synthetic metadata and public or repository-owned imagery. No C
 
 ## Validation
 
-Final `npm run check` passed on 2026-07-15:
+Final `npm run check` passed on 2026-07-16:
 
 - manifest and package validation passed;
 - four icon sets, five store screenshots, and four publishing assets passed asset validation;
@@ -66,8 +66,8 @@ Final `npm run check` passed on 2026-07-15:
 - production build passed;
 - `release/mediacookies-0.2.0.zip` was created successfully.
 
-The video composition also passed its dedicated QA with zero lint, runtime, layout, motion, or contrast findings. Its 40-second authored master is accelerated at 1.4286× into a 28.000-second final delivery; the final MP4 remains 1920×1080 at 30fps with H.264 video and AAC audio.
+Both language editions passed dedicated QA with zero runtime, layout, motion, or contrast errors and 56/56 WCAG AA text checks. HyperFrames reports one non-blocking maintainability warning because the bilingual composition remains a single large HTML file. Each 40-second authored master is accelerated at 1.4286× into a 28.000-second final delivery; both MP4s remain 1920×1080 at 30fps with H.264 video and AAC audio.
 
 ## Publication gate
 
-This delivery is committed and pushed only to `brand/qidu-refresh` for GitHub review. It is not merged into `main`. No GitHub Release, Chrome Web Store submission, repository-visibility change, or X post was performed. Human review of the final screenshots, video, store listing, and trademark proximity remains required before any publication step.
+GitHub publication for this work is limited to merging the reviewed source and publishing assets into `main`. No GitHub Release, repository-visibility change, or X post was performed. Chrome Web Store submission remains a separate explicit action, and the Media Dock import plus clean Chrome/Edge compatibility checks remain visible post-submission gates.

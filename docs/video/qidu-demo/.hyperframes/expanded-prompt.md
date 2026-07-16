@@ -1,4 +1,4 @@
-# MediaCookies · 凭 — 40-second master / 28-second delivery
+# MediaCookies · 凭 — bilingual 40-second masters / 28-second deliveries
 
 ## Style block
 
@@ -11,6 +11,8 @@ Concept angle: an explicit permission passage carries local sign-in state from a
 `reveal-hold-clarify-expand-explain-prove-transfer-signoff`
 
 Eight five-second authored beats across a 40-second master. The final delivery is accelerated to 28 seconds at 1.4286×; the energy stays calm and precise, peaks when the workbench opens, then resolves into the Media Dock handoff.
+
+Render two matching language editions from the declared `language` composition variable: `zh-CN` for WeChat Official Account and `en` for X. Localize the complete editorial layer, captions, statuses, and explanatory labels while keeping scene order, timing, product truth, and privacy disclosures identical.
 
 ## Global rules
 
