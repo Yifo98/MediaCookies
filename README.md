@@ -48,6 +48,8 @@ MediaCookies 默认使用简体中文，也可以在界面中手动切换为 Eng
 - GitHub Releases：[下载发布包](https://github.com/Yifo98/MediaCookies/releases/latest)
 - 本地开发：运行 `npm install` 与 `npm run build`，然后在浏览器扩展管理页加载项目根目录或 `dist/` 目录。根目录入口会明确加载最新的 `dist/` 构建，不会直接运行 TypeScript 源文件。
 
+MediaCookies 只分发 Manifest V3 浏览器扩展 ZIP，不提供 EXE、MSI、BAT、CMD、PowerShell 或 Native Messaging Host。Windows 11 Smart App Control 不要求把纯扩展 ZIP 改装成 BAT；BAT 也不能替未签名 EXE 绕过执行检查。官方资料与项目边界见 [`docs/research/windows-smart-app-control.md`](docs/research/windows-smart-app-control.md)。
+
 ## 隐私边界
 
 - 安装时不申请任何网站的固定访问权限；只有用户发起操作时才按需请求。
@@ -69,7 +71,7 @@ npm run package
 npm run check
 ```
 
-`npm run package` 会生成 `release/mediacookies-<version>.zip`。`npm run check` 串行执行项目校验、发布素材校验、测试、类型检查、构建和打包。
+`npm run package` 会生成 `release/mediacookies-<version>.zip`，并拒绝把 Windows 可执行文件、安装器、动态库或脚本启动器混入商店包。`npm run check` 串行执行项目校验、发布素材校验、测试、类型检查、构建和打包。
 
 浏览器验收范围见 [`docs/testing/browser-acceptance.md`](docs/testing/browser-acceptance.md)，架构决策见 [`docs/adr/`](docs/adr/)，商店与 GitHub 素材说明见 [`docs/brand/publishing-assets.md`](docs/brand/publishing-assets.md)。
 
