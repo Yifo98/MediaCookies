@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "MediaCookies",
+  "name": "MediaCookies · 凭",
   "short_name": "MediaCookies",
   "version": "0.2.0",
   "description": "Export the current media login state as a local Media Dock compatible Cookie package. No password export, no network upload.",
@@ -11,7 +11,7 @@
     "128": "icons/icon128.png"
   },
   "action": {
-    "default_title": "MediaCookies",
+    "default_title": "MediaCookies · 凭",
     "default_popup": "popup.html",
     "default_icon": {
       "16": "icons/icon16.png",

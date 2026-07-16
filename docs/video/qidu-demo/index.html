@@ -1,0 +1,650 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>MediaCookies · 凭 — QIDU Demo</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      * { box-sizing: border-box; }
+      html, body { width: 1920px; height: 1080px; margin: 0; overflow: hidden; }
+      body {
+        color: #1c2130;
+        background: #f7f3ee;
+        font-family: "Noto Sans JP", sans-serif;
+      }
+      #root {
+        position: relative;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+      }
+      #visual-root {
+        position: absolute;
+        inset: 0;
+        overflow: hidden;
+      }
+      .world {
+        position: absolute;
+        inset: 0;
+        overflow: hidden;
+        background-color: #f7f3ee;
+        background-image:
+          radial-gradient(circle at 2% 4%, rgba(29, 196, 240, .24), rgba(29, 196, 240, 0) 31%),
+          radial-gradient(circle at 97% 7%, rgba(118, 57, 235, .24), rgba(118, 57, 235, 0) 38%),
+          radial-gradient(circle at 68% 96%, rgba(102, 48, 215, .12), rgba(102, 48, 215, 0) 31%);
+      }
+      .grain {
+        position: absolute;
+        inset: 0;
+        opacity: .15;
+        background-image: radial-gradient(circle, rgba(28, 33, 48, .16) .7px, rgba(28, 33, 48, 0) .8px);
+        background-size: 7px 7px;
+      }
+      .ambient-mark {
+        position: absolute;
+        right: -150px;
+        top: -110px;
+        width: 760px;
+        height: 760px;
+        object-fit: contain;
+        opacity: .085;
+        filter: saturate(.85);
+        transform-origin: center;
+      }
+      .boundary-line {
+        position: absolute;
+        left: 70px;
+        right: 70px;
+        bottom: 58px;
+        height: 3px;
+        background: #cfc7dd;
+      }
+      .boundary-progress {
+        position: absolute;
+        left: 70px;
+        bottom: 58px;
+        width: 1780px;
+        height: 3px;
+        transform-origin: left center;
+        background: #6630d7;
+      }
+      .corner-meta {
+        position: absolute;
+        z-index: 20;
+        top: 48px;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        color: #6630d7;
+        font-family: "Space Mono", monospace;
+        font-size: 19px;
+        font-weight: 700;
+        letter-spacing: .16em;
+      }
+      .corner-meta::before {
+        display: block;
+        width: 42px;
+        height: 3px;
+        background: #1dc4f0;
+        content: "";
+      }
+      .corner-meta.left { left: 72px; }
+      .corner-meta.right { right: 72px; color: #525965; font-weight: 400; }
+      .corner-meta.right::before { background: #6630d7; }
+      .scene {
+        position: absolute;
+        inset: 0;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        padding: 112px 96px 126px;
+      }
+      .scene:not(#scene-1) { opacity: 0; }
+      .scene-grid {
+        display: grid;
+        grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr);
+        align-items: center;
+        gap: 82px;
+        width: 100%;
+        height: 100%;
+      }
+      .scene-grid.reverse { grid-template-columns: minmax(0, 1.14fr) minmax(0, .86fr); }
+      .copy {
+        display: grid;
+        align-content: center;
+        gap: 25px;
+        min-width: 0;
+      }
+      .chapter {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        color: #6630d7;
+        font-family: "Space Mono", monospace;
+        font-size: 21px;
+        font-weight: 700;
+        letter-spacing: .15em;
+      }
+      .chapter b {
+        display: inline-grid;
+        place-items: center;
+        width: 48px;
+        height: 48px;
+        border: 2px solid #6630d7;
+        border-radius: 15px;
+        font-family: "Montserrat", sans-serif;
+        font-size: 19px;
+      }
+      h1, h2, h3, p { margin: 0; }
+      h1, h2 {
+        max-width: 800px;
+        font-family: "Montserrat", "Noto Sans JP", sans-serif;
+        font-weight: 900;
+        letter-spacing: -.055em;
+      }
+      h1 { font-size: 104px; line-height: .98; }
+      #scene-1 h1 { font-size: 88px; white-space: nowrap; }
+      h2 { font-size: 76px; line-height: 1.04; }
+      .accent { color: #6630d7; }
+      .body-copy {
+        max-width: 760px;
+        color: #626a78;
+        font-size: 31px;
+        font-weight: 400;
+        line-height: 1.55;
+      }
+      .principle {
+        color: #6630d7;
+        font-size: 28px;
+        font-weight: 700;
+        letter-spacing: .04em;
+      }
+      .pills { display: flex; flex-wrap: wrap; gap: 14px; }
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        min-height: 46px;
+        border: 2px solid rgba(102, 48, 215, .18);
+        border-radius: 999px;
+        padding: 9px 18px;
+        color: #4b5361;
+        background: rgba(255, 253, 249, .82);
+        font-family: "Space Mono", monospace;
+        font-size: 19px;
+        font-weight: 700;
+      }
+      .pill.strong { color: #fffdf9; background: #6630d7; border-color: #6630d7; }
+      .product-stage {
+        position: relative;
+        display: grid;
+        place-items: center;
+        min-width: 0;
+        min-height: 0;
+        height: 100%;
+        overflow: hidden;
+        border: 2px solid rgba(102, 48, 215, .13);
+        border-radius: 46px;
+        background: rgba(255, 253, 249, .76);
+        box-shadow: 0 34px 94px rgba(65, 37, 118, .17);
+      }
+      .product-stage::after {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        width: 62%;
+        height: 5px;
+        background: #6630d7;
+        content: "";
+      }
+      .product-stage img { display: block; object-fit: contain; }
+      .popup-shot {
+        width: 500px;
+        height: 750px;
+        border-radius: 23px;
+        box-shadow: 0 24px 64px rgba(28, 33, 48, .22);
+      }
+      .workbench-shot {
+        width: 94%;
+        max-height: 760px;
+        border: 2px solid rgba(28, 33, 48, .08);
+        border-radius: 26px;
+        box-shadow: 0 24px 64px rgba(28, 33, 48, .17);
+      }
+      .stage-label {
+        position: absolute;
+        left: 30px;
+        top: 28px;
+        z-index: 2;
+        color: #6630d7;
+        font-family: "Space Mono", monospace;
+        font-size: 17px;
+        font-weight: 700;
+        letter-spacing: .13em;
+      }
+      .caption {
+        position: absolute;
+        z-index: 30;
+        left: 50%;
+        bottom: 82px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 880px;
+        max-width: 1460px;
+        min-height: 54px;
+        transform: translateX(-50%);
+        border: 2px solid rgba(102, 48, 215, .15);
+        border-radius: 999px;
+        padding: 10px 28px;
+        color: #1c2130;
+        background: rgba(255, 253, 249, .94);
+        box-shadow: 0 16px 42px rgba(65, 37, 118, .12);
+        font-size: 25px;
+        font-weight: 700;
+        text-align: center;
+      }
+      .steps {
+        display: grid;
+        gap: 14px;
+        max-width: 690px;
+      }
+      .step {
+        display: grid;
+        grid-template-columns: 48px 1fr;
+        align-items: center;
+        gap: 17px;
+        min-height: 72px;
+        border: 2px solid rgba(102, 48, 215, .14);
+        border-radius: 22px;
+        padding: 12px 18px;
+        background: rgba(255, 253, 249, .78);
+        color: #424a58;
+        font-size: 24px;
+        font-weight: 700;
+      }
+      .step strong {
+        display: grid;
+        place-items: center;
+        width: 42px;
+        height: 42px;
+        border-radius: 14px;
+        color: #fffdf9;
+        background: #6630d7;
+        font-family: "Space Mono", monospace;
+        font-size: 18px;
+      }
+      .status-layout {
+        display: grid;
+        grid-template-columns: 360px 360px;
+        align-items: center;
+        justify-content: center;
+        gap: 24px;
+        width: 100%;
+      }
+      .status-layout img {
+        width: 340px;
+        height: 510px;
+        border-radius: 20px;
+        box-shadow: 0 20px 52px rgba(28, 33, 48, .19);
+      }
+      .status-rail {
+        grid-column: 1 / -1;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+        width: 100%;
+      }
+      .status-token {
+        display: grid;
+        place-items: center;
+        min-height: 74px;
+        border-radius: 20px;
+        color: #1c2130;
+        background: #e0f4f2;
+        font-size: 22px;
+        font-weight: 700;
+      }
+      .status-token.warn { background: #f1e8ca; }
+      .status-token.signin { color: #fffdf9; background: #6630d7; }
+      .privacy-list {
+        display: grid;
+        grid-template-columns: repeat(2, max-content);
+        gap: 13px;
+      }
+      .privacy-list span {
+        border-left: 4px solid #1dc4f0;
+        padding: 7px 13px;
+        color: #4c5564;
+        background: rgba(255, 253, 249, .74);
+        font-family: "Space Mono", monospace;
+        font-size: 17px;
+        font-weight: 700;
+      }
+      .package-card {
+        display: grid;
+        gap: 12px;
+        border: 3px solid rgba(102, 48, 215, .19);
+        border-radius: 28px;
+        padding: 25px 28px;
+        background: rgba(255, 253, 249, .92);
+        box-shadow: 0 22px 54px rgba(65, 37, 118, .14);
+      }
+      .package-card small {
+        color: #6630d7;
+        font-family: "Space Mono", monospace;
+        font-size: 17px;
+        font-weight: 700;
+        letter-spacing: .13em;
+      }
+      .package-card strong {
+        font-family: "Space Mono", monospace;
+        font-size: 25px;
+        font-weight: 700;
+      }
+      .handoff {
+        display: grid;
+        grid-template-columns: 170px 1fr 170px;
+        align-items: center;
+        gap: 18px;
+        width: 100%;
+        padding: 24px 30px;
+      }
+      .handoff-icon {
+        width: 150px;
+        height: 150px;
+        object-fit: contain;
+        filter: drop-shadow(0 16px 26px rgba(65, 37, 118, .17));
+      }
+      .handoff-line {
+        position: relative;
+        display: grid;
+        place-items: center;
+        height: 74px;
+        border-top: 4px solid #cfc7dd;
+        color: #6630d7;
+        font-family: "Space Mono", monospace;
+        font-size: 18px;
+        font-weight: 700;
+        letter-spacing: .12em;
+      }
+      .handoff-line::after {
+        position: absolute;
+        right: -4px;
+        top: -12px;
+        width: 20px;
+        height: 20px;
+        border-top: 4px solid #6630d7;
+        border-right: 4px solid #6630d7;
+        transform: rotate(45deg);
+        content: "";
+      }
+      .dock-shot {
+        width: 94%;
+        max-height: 580px;
+        border-radius: 24px;
+        box-shadow: 0 24px 62px rgba(28, 33, 48, .18);
+      }
+      .final-lockup {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+      }
+      .final-lockup img { width: 96px; height: 96px; object-fit: contain; }
+      .final-lockup strong {
+        font-family: "Montserrat", sans-serif;
+        font-size: 44px;
+        font-weight: 900;
+        letter-spacing: -.045em;
+      }
+      .final-lockup strong span { color: #6630d7; }
+      .safe-badge {
+        display: inline-flex;
+        align-items: center;
+        width: max-content;
+        min-height: 68px;
+        border-radius: 20px;
+        padding: 12px 22px;
+        color: #fffdf9;
+        background: #6630d7;
+        font-family: "Space Mono", monospace;
+        font-size: 21px;
+        font-weight: 700;
+        letter-spacing: .08em;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-width="1920" data-height="1080" data-duration="40" data-fps="30">
+      <div id="visual-root" class="clip" data-start="0" data-duration="40" data-track-index="1">
+        <div class="world"></div>
+        <div class="grain" data-layout-ignore></div>
+        <img class="ambient-mark" data-layout-ignore src="assets/mediacookies-pass-watermark.png" alt="" />
+        <div class="boundary-line" data-layout-ignore></div>
+        <div class="boundary-progress" data-layout-ignore></div>
+        <div class="corner-meta left">MEDIACOOKIES · 凭</div>
+        <div class="corner-meta right">LOCAL PASS / 28 SEC</div>
+
+        <section id="scene-1" class="scene">
+          <div class="scene-grid">
+            <div class="copy">
+              <div class="chapter"><b>01</b> QUICK PASS</div>
+              <h1><span>Media</span><span class="accent">Cookies</span> · 凭</h1>
+              <p class="body-copy">为 Media Dock 导出登录状态。Media Dock 用户只需打开目标媒体页，再让本地通行证完成交接。</p>
+              <p class="principle">凭以通行，不越边界。</p>
+              <div class="pills"><span class="pill strong">LOCAL ONLY</span><span class="pill">NO COOKIE VALUES</span></div>
+            </div>
+            <div class="product-stage">
+              <span class="stage-label">PRODUCTION EXTENSION · OPERA NEON</span>
+              <img id="shot-ready" class="popup-shot" src="assets/popup-ready-zh.png" alt="MediaCookies 当前来源可以导出" />
+            </div>
+          </div>
+          <div class="caption">打开目标媒体页，MediaCookies 只处理当前任务需要的登录状态。</div>
+        </section>
+
+        <section id="scene-2" class="scene">
+          <div class="scene-grid">
+            <div class="copy">
+              <div class="chapter"><b>02</b> PERMISSION</div>
+              <h2>授权发生在<span class="accent">点击之后</span></h2>
+              <p class="body-copy">权限不是默认铺开的后台能力，而是一道用户主动跨过的门槛。</p>
+              <div class="steps">
+                <div class="step"><strong>1</strong><span>识别当前媒体来源</span></div>
+                <div class="step"><strong>2</strong><span>点击后申请需要的访问</span></div>
+                <div class="step"><strong>3</strong><span>数据只留在本机</span></div>
+              </div>
+            </div>
+            <div class="product-stage">
+              <span class="stage-label">OPTIONAL HOST ACCESS · ON DEMAND</span>
+              <img id="shot-permission" class="popup-shot" src="assets/popup-ready-permission.png" alt="MediaCookies 按需权限界面" />
+            </div>
+          </div>
+          <div class="caption">主动授权媒体站点扫描；不授权，就不会读取浏览器中的其他来源。</div>
+        </section>
+
+        <section id="scene-3" class="scene">
+          <div class="scene-grid reverse">
+            <div class="product-stage">
+              <span class="stage-label">READINESS ≠ SCAN SCOPE</span>
+              <div class="status-layout">
+                <img id="shot-status-ready" src="assets/popup-ready-status.png" alt="可以导出状态" />
+                <img id="shot-status-signin" src="assets/popup-signin-zh.png" alt="请先登录状态" />
+                <div class="status-rail">
+                  <span class="status-token">可以导出</span>
+                  <span class="status-token warn">需确认</span>
+                  <span class="status-token signin">请先登录</span>
+                </div>
+              </div>
+            </div>
+            <div class="copy">
+              <div class="chapter"><b>03</b> READINESS</div>
+              <h2>状态先说清，下一步<span class="accent">自然就懂</span></h2>
+              <p class="body-copy">“扫描哪些域名”与“当前登录能否导出”是两件事。界面把它们分开表达。</p>
+              <div class="pills"><span class="pill strong">不显示 Cookie 值</span></div>
+            </div>
+          </div>
+          <div class="caption">可以导出、需确认、请先登录：描述登录状态，不描述扫描范围。</div>
+        </section>
+
+        <section id="scene-4" class="scene">
+          <div class="scene-grid reverse">
+            <div class="product-stage">
+              <span class="stage-label">ADVANCED FLOW · OPENED BY CHOICE</span>
+              <img id="shot-workbench" class="workbench-shot" src="assets/workbench-zh.png" alt="MediaCookies 导出工作台" />
+            </div>
+            <div class="copy">
+              <div class="chapter"><b>04</b> WORKBENCH</div>
+              <h2>专业能力收进<span class="accent">工作台</span></h2>
+              <p class="body-copy">Media Dock 用户先用快速导出；熟悉 Cookie、yt-dlp 与诊断流程的用户，再进入完整工作台。</p>
+              <div class="pills"><span class="pill">SOURCES</span><span class="pill">READINESS</span><span class="pill">SAFE PREVIEW</span></div>
+            </div>
+          </div>
+          <div class="caption">需要诊断时再展开专业能力；快速导出仍然保持简单。</div>
+        </section>
+
+        <section id="scene-5" class="scene">
+          <div class="scene-grid">
+            <div class="copy">
+              <div class="chapter"><b>05</b> SCAN SCOPE</div>
+              <h2>先看媒体站点，缺少时再看<span class="accent">全部域名</span></h2>
+              <p class="body-copy">两种扫描使用同一份本地授权，差别只在于工作台显示哪些来源。</p>
+              <div class="privacy-list"><span>范围决定显示什么</span><span>状态说明能否导出</span></div>
+            </div>
+            <div class="product-stage">
+              <span class="stage-label">REAL WORKBENCH · SCAN SCOPE</span>
+              <img class="workbench-shot" src="assets/workbench-scope-zh.png" alt="导出工作台中的媒体站点与全部 Cookie 域名范围" />
+            </div>
+          </div>
+          <div class="caption">推荐范围更聚焦；全部域名用于找遗漏来源，不代表它们更有效。</div>
+        </section>
+
+        <section id="scene-6" class="scene">
+          <div class="scene-grid reverse">
+            <div class="product-stage">
+              <span class="stage-label">SAFE PREVIEW · SYNTHETIC METADATA</span>
+              <img id="shot-preview" class="workbench-shot" src="assets/workbench-en.png" alt="安全元数据预览" />
+            </div>
+            <div class="copy">
+              <div class="chapter"><b>06</b> SAFE PREVIEW</div>
+              <h2>诊断信息有用，秘密本身<span class="accent">保持隐藏</span></h2>
+              <p class="body-copy">可以查看域名、名称、有效期、状态与安全标记；Cookie 值永远不会进入表格。</p>
+              <div class="pills"><span class="pill">DOMAIN</span><span class="pill">STATUS</span><span class="pill">SECURITY</span></div>
+              <span class="safe-badge">NO COOKIE VALUES</span>
+            </div>
+          </div>
+          <div class="caption">安全预览只展示元数据，不展示 Cookie 值。</div>
+        </section>
+
+        <section id="scene-7" class="scene">
+          <div class="scene-grid">
+            <div class="copy">
+              <div class="chapter"><b>07</b> LOCAL EXPORT</div>
+              <h2>生成带时间的<span class="accent">Cookie 包</span></h2>
+              <p class="body-copy">文件名清楚可追溯；导出完成后，本次扫描会从页面内存中清除。</p>
+              <div id="export-package" class="package-card">
+                <small>LOCAL PACKAGE · 2026-07-15 21:45:30</small>
+                <strong>MediaCookies_2026-07-15_21-45-30.zip</strong>
+              </div>
+              <div class="pills"><span class="pill strong">NO UPLOAD</span><span class="pill">CLEARED AFTER EXPORT</span></div>
+            </div>
+            <div class="product-stage">
+              <span class="stage-label">EXPORT RECEIPT</span>
+              <img id="shot-exported" class="popup-shot" src="assets/popup-exported-en.png" alt="MediaCookies 本地导出完成" />
+            </div>
+          </div>
+          <div class="caption">导出完成：时间戳 Cookie 包留在本机，等待 Media Dock 导入。</div>
+        </section>
+
+        <section id="scene-8" class="scene">
+          <div class="scene-grid reverse">
+            <div class="product-stage">
+              <span class="stage-label">MEDIA DOCK · SYNTHETIC IMPORT STATE</span>
+              <div class="handoff">
+                <img id="handoff-cookies" class="handoff-icon" src="assets/mediacookies-pass-handoff.png" alt="MediaCookies" />
+                <div class="handoff-line">LOCAL COOKIE PACKAGE</div>
+                <img id="handoff-dock" class="handoff-icon" src="assets/media-dock-icon.png" alt="Media Dock" />
+              </div>
+              <img id="shot-dock" class="dock-shot" src="assets/media-dock-import.png" alt="Media Dock 公开界面与合成导入状态" />
+            </div>
+            <div class="copy">
+              <div class="chapter"><b>08</b> LOCAL HANDOFF</div>
+              <div class="final-lockup"><img src="assets/mediacookies-pass.png" alt="" /><strong>Media<span>Cookies</span> · 凭</strong></div>
+              <h2>交给 Media Dock，边界仍然<span class="accent">留在本机</span></h2>
+              <p class="principle">凭以通行，不越边界。</p>
+              <p class="body-copy">Pass by permission, never beyond the boundary.</p>
+              <div class="pills"><span class="pill strong">A QIDU UTILITY</span></div>
+            </div>
+          </div>
+          <div class="caption">本地交接路径：MediaCookies 与 Media Dock 各守其职。</div>
+        </section>
+      </div>
+      <audio id="silent-audio" src="assets/silence.m4a" data-start="0" data-duration="40" data-track-index="10" data-volume="1"></audio>
+    </div>
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+
+      tl.fromTo("#scene-1 .chapter", { x: -48, opacity: 0 }, { x: 0, opacity: 1, duration: .62, ease: "power3.out" }, .18);
+      tl.fromTo("#scene-1 h1", { y: 54, opacity: 0 }, { y: 0, opacity: 1, duration: .82, ease: "expo.out" }, .32);
+      tl.fromTo("#scene-1 .body-copy, #scene-1 .principle", { y: 28, opacity: 0 }, { y: 0, opacity: 1, duration: .68, stagger: .12, ease: "power2.out" }, .58);
+      tl.fromTo("#scene-1 .pills", { scale: .92, opacity: 0 }, { scale: 1, opacity: 1, duration: .55, ease: "back.out(1.45)" }, .86);
+      tl.fromTo("#scene-1 .product-stage", { x: 90, rotationY: -6, opacity: 0 }, { x: 0, rotationY: 0, opacity: 1, duration: 1.02, ease: "power3.out" }, .46);
+      tl.fromTo("#scene-1 .caption", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: .52, ease: "power2.out" }, 1.08);
+
+      const blurTransition = (oldScene, newScene, at, duration = .5) => {
+        tl.to(oldScene, { filter: "blur(12px)", scale: 1.025, opacity: 0, duration, ease: "power2.inOut" }, at);
+        tl.fromTo(newScene, { filter: "blur(12px)", scale: .975, opacity: 0 }, { filter: "blur(0px)", scale: 1, opacity: 1, duration, ease: "power2.inOut" }, at + .08);
+      };
+      const fromToIfPresent = (selector, from, to, at) => {
+        if (document.querySelector(selector)) tl.fromTo(selector, from, to, at);
+      };
+      const enter = (scene, at, direction = 1) => {
+        fromToIfPresent(`${scene} .chapter`, { x: -44 * direction, opacity: 0 }, { x: 0, opacity: 1, duration: .55, ease: "power3.out" }, at);
+        fromToIfPresent(`${scene} h2, ${scene} .final-lockup`, { y: 52, opacity: 0 }, { y: 0, opacity: 1, duration: .72, stagger: .09, ease: "expo.out" }, at + .08);
+        fromToIfPresent(`${scene} .body-copy, ${scene} .principle`, { y: 28, opacity: 0 }, { y: 0, opacity: 1, duration: .62, stagger: .1, ease: "power2.out" }, at + .32);
+        fromToIfPresent(`${scene} .product-stage`, { x: 72 * direction, opacity: 0 }, { x: 0, opacity: 1, duration: .78, ease: "power3.out" }, at + .18);
+        fromToIfPresent(`${scene} .caption`, { y: 26, opacity: 0 }, { y: 0, opacity: 1, duration: .48, ease: "power2.out" }, at + .66);
+      };
+
+      blurTransition("#scene-1", "#scene-2", 4.42);
+      enter("#scene-2", 4.74, 1);
+      tl.fromTo("#scene-2 .step", { x: -38, opacity: 0 }, { x: 0, opacity: 1, duration: .44, stagger: .13, ease: "power2.out" }, 5.18);
+
+      blurTransition("#scene-2", "#scene-3", 9.42);
+      enter("#scene-3", 9.74, -1);
+      tl.fromTo("#scene-3 .status-layout img", { y: 44, rotation: -2, opacity: 0 }, { y: 0, rotation: 0, opacity: 1, duration: .62, stagger: .12, ease: "back.out(1.35)" }, 10.12);
+      tl.fromTo("#scene-3 .status-token", { scale: .84, opacity: 0 }, { scale: 1, opacity: 1, duration: .48, stagger: .12, ease: "back.out(1.6)" }, 10.62);
+
+      blurTransition("#scene-3", "#scene-4", 14.42);
+      enter("#scene-4", 14.72, -1);
+      tl.fromTo("#scene-4 .pills .pill", { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: .4, stagger: .1, ease: "power2.out" }, 15.44);
+
+      blurTransition("#scene-4", "#scene-5", 19.42);
+      enter("#scene-5", 19.74, 1);
+
+      blurTransition("#scene-5", "#scene-6", 24.42);
+      enter("#scene-6", 24.74, -1);
+      tl.fromTo("#scene-6 .safe-badge", { scale: .82, opacity: 0 }, { scale: 1, opacity: 1, duration: .5, ease: "back.out(1.7)" }, 25.62);
+
+      blurTransition("#scene-6", "#scene-7", 29.42);
+      enter("#scene-7", 29.74, 1);
+      tl.fromTo("#export-package", { x: -60, scale: .94, opacity: 0 }, { x: 0, scale: 1, opacity: 1, duration: .66, ease: "power3.out" }, 30.48);
+      tl.to("#export-package", { scale: .96, duration: .14, ease: "power1.in" }, 31.18);
+      tl.to("#export-package", { scale: 1, duration: .48, ease: "back.out(1.7)" }, 31.32);
+
+      blurTransition("#scene-7", "#scene-8", 34.36, .6);
+      enter("#scene-8", 34.72, -1);
+      tl.fromTo("#handoff-cookies", { x: -48, opacity: 0 }, { x: 0, opacity: 1, duration: .58, ease: "power3.out" }, 35.08);
+      tl.fromTo("#scene-8 .handoff-line", { scaleX: .1, opacity: 0, transformOrigin: "left center" }, { scaleX: 1, opacity: 1, duration: .72, ease: "power2.out" }, 35.42);
+      tl.fromTo("#handoff-dock", { scale: .78, opacity: 0 }, { scale: 1, opacity: 1, duration: .6, ease: "back.out(1.55)" }, 35.92);
+      tl.fromTo("#shot-dock", { y: 54, opacity: 0 }, { y: 0, opacity: 1, duration: .68, ease: "power3.out" }, 36.18);
+      tl.to("#scene-8", { opacity: 0, duration: .7, ease: "power1.inOut" }, 39.3);
+
+      tl.to(".ambient-mark", { scale: 1.055, rotation: 2.4, duration: 4, ease: "sine.inOut", repeat: 9, yoyo: true }, 0);
+      tl.fromTo(".boundary-progress", { scaleX: 0 }, { scaleX: 1, duration: 39.2, ease: "none" }, 0);
+      tl.fromTo(".corner-meta", { y: -24, opacity: 0 }, { y: 0, opacity: 1, duration: .7, stagger: .1, ease: "power2.out" }, .1);
+
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>

@@ -2,7 +2,8 @@ import type { Language } from '../domain/user-preferences'
 
 const zhCN = {
   languageLabel: '界面语言',
-  quickDocumentTitle: 'MediaCookies',
+  brandPrinciple: '凭以通行，不越边界。',
+  quickDocumentTitle: 'MediaCookies · 凭',
   quickTagline: '为 Media Dock 导出登录状态',
   quickIdentifying: '正在识别当前来源…',
   quickWait: '请稍候',
@@ -43,7 +44,7 @@ const zhCN = {
   quickAccessDeniedDetail: '没有读取任何 Cookie。你可以保留当前页面，稍后重新点击授权。',
   quickTemporaryError: '暂时无法导出',
   quickRetry: '重试',
-  workbenchDocumentTitle: 'MediaCookies 导出工作台',
+  workbenchDocumentTitle: 'MediaCookies · 凭 导出工作台',
   workbenchTitle: '导出工作台',
   workbenchSubtitle: '检查、筛选并导出需要的 Cookie 来源。',
   scanScopeLabel: '扫描范围',
@@ -110,7 +111,8 @@ export type CopyKey = keyof typeof zhCN
 
 const en: Record<CopyKey, string> = {
   languageLabel: 'Language',
-  quickDocumentTitle: 'MediaCookies',
+  brandPrinciple: 'Pass by permission, never beyond the boundary.',
+  quickDocumentTitle: 'MediaCookies · 凭',
   quickTagline: 'Cookie export for Media Dock',
   quickIdentifying: 'Identifying the current source…',
   quickWait: 'One moment',
@@ -151,7 +153,7 @@ const en: Record<CopyKey, string> = {
   quickAccessDeniedDetail: 'No Cookies were read. Keep this page open and try again when you are ready.',
   quickTemporaryError: 'Export unavailable',
   quickRetry: 'Try again',
-  workbenchDocumentTitle: 'MediaCookies Export Workbench',
+  workbenchDocumentTitle: 'MediaCookies · 凭 Export Workbench',
   workbenchTitle: 'Export workbench',
   workbenchSubtitle: 'Inspect, select, and export the Cookie sources you need.',
   scanScopeLabel: 'SCAN SCOPE',
