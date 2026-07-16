@@ -1,23 +1,26 @@
-# MediaCookies 发布视觉素材
+# MediaCookies · 凭 发布视觉素材
 
 本文件定义 MediaCookies 重构后的图标、Chrome Web Store 素材和 GitHub 展示素材。尺寸与格式以 [Chrome Web Store 官方图片规范](https://developer.chrome.com/docs/webstore/images?hl=zh-cn) 及开发者信息中心的实际上传要求为准。
 
 ## 品牌方向
 
-- 公开主名称：MediaCookies。
+- 公开主名称：MediaCookies · 凭。
+- 品牌签名：A QIDU Utility。
+- 中文原则：凭以通行，不越边界。
+- 英文原则：Pass by permission, never beyond the boundary.
 - 中文副说明：为 Media Dock 导出登录状态。
 - 英文副说明：Cookie export for Media Dock.
 - `XF` 仅作为开发者或发布者身份使用，不进入主 Logo 和产品标题。
-- 视觉概念：本地媒体通行证。
-- 选定标志：第一款“通行印记”几何候选。
-- 标志由开放圆环、播放负形和青紫通行切片组成。
+- 视觉概念：用户授权后才打开的本地媒体通行凭证。
+- 选定标志：“凭”通行印记。
+- 标志由紫色开放权限环、右侧青色授权切片、中央播放负形和向下打开的本地交接通道组成。
 - 参考现代技术品牌的简洁度与比例纪律，不临摹任何现有品牌标志。
 - 禁止使用 Cookie 饼干、锁、钥匙、浏览器窗口、下载箭头和字母缩写作为主图形。
 
 ## 品牌家族关系
 
 - Media Dock 3.0 的品牌母体为 “Luminous Workshop / 微光工作室”，桌面应用使用独立的紧凑版 Media Berth 标志。
-- MediaCookies 保留自己的“通行印记”，不得直接复用或改画 Media Berth 的主体结构。
+- MediaCookies 保留自己的“凭”通行印记，不得直接复用或改画 Media Berth 的主体结构。
 - 两者仅共享暖白、石墨、湖蓝、淡紫、克制材质和小尺寸清晰度。
 - Media Dock 表达媒体停泊与处理；MediaCookies 表达当前来源的通行状态与本地交接。
 - 家族识别来自色彩、材质、比例和排版纪律，不依靠相似轮廓制造关联。
@@ -26,8 +29,16 @@
 
 同一个几何标志提供两种场景版本，不创建两套 Logo：
 
-- 浏览器工具栏版：透明背景，针对 16px 和 32px 优化轮廓、间距和色块分离。
-- 商店与展示版：暖白圆角底，正面视角，仅保留轻微阴影。
+- 浏览器工具栏版：透明背景，移除小尺寸下会干扰轮廓的通道光束，针对 16px 和 32px 优化开放环与授权切片的分离。
+- 商店与展示版：保留方向稿中的克制通道光束，用于大尺寸品牌展示；商店 128px 图标仍使用透明安全留白。
+
+生产来源：
+
+- `docs/brand/assets/source/qidu-pass-imagegen-master.png`：经用户确认方向后生成的原始 RGB 母稿，保留作来源证据。
+- `docs/brand/assets/source/qidu-pass-transparent-master.png`：去除白色底板后的透明展示母版。
+- `docs/brand/assets/icons/qidu-pass-toolbar-512.png`：小尺寸工具栏母版。
+- `docs/brand/assets/icons/qidu-pass-presentation-512.png`：带本地交接光束的展示母版。
+- `scripts/generate-qidu-icons.py`：从批准母稿生成透明母版与固定尺寸派生图，避免手工描摹或 CSS 近似。
 
 需要生成以下浏览器图标：
 

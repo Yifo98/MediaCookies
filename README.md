@@ -1,8 +1,13 @@
-![MediaCookies — Local media pass](docs/github/readme-hero-1600x480.png)
+![MediaCookies · 凭 — A QIDU Utility](docs/github/readme-hero-1600x480.png)
 
-# MediaCookies
+# MediaCookies · 凭
 
-MediaCookies 是 Media Dock 的浏览器登录状态导出助手。Media Dock 用户在已登录的媒体网页上打开扩展，即可把当前来源交给 Media Dock；熟悉 Cookie 或 yt-dlp 的用户，可以进入导出工作台扫描、预览并组合多个来源。
+> 凭以通行，不越边界。<br>
+> Pass by permission, never beyond the boundary.
+
+**A QIDU Utility**
+
+MediaCookies · 凭是 Media Dock 的浏览器登录状态导出助手。“凭”代表用户亲自授予的通行权限，而不是越过浏览器边界。Media Dock 用户在已登录的媒体网页上打开扩展，即可把当前来源交给 Media Dock；熟悉 Cookie 或 yt-dlp 的用户，可以进入导出工作台扫描、预览并组合多个来源。
 
 MediaCookies 默认使用简体中文，也可以在界面中手动切换为 English。它不会根据浏览器语言自动切换。
 

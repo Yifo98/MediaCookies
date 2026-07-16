@@ -3,14 +3,20 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>MediaCookies 导出工作台</title>
+    <title>MediaCookies · 凭 导出工作台</title>
   </head>
   <body>
     <main class="workbench-shell" aria-labelledby="workbench-title">
       <header class="workbench-hero">
         <div>
           <div class="workbench-meta">
-            <p class="eyebrow">MEDIA DOCK</p>
+            <div class="workbench-brand">
+              <img src="/icons/icon48.png" alt="" />
+              <div>
+                <p class="eyebrow">MEDIACOOKIES · 凭</p>
+                <p class="workbench-principle" data-copy="brandPrinciple">凭以通行，不越边界。</p>
+              </div>
+            </div>
             <label class="language-control">
               <span data-copy="languageLabel">界面语言</span>
               <select id="language-select">
@@ -33,7 +39,7 @@
       </header>
 
       <section class="permission-note" aria-labelledby="permission-title">
-        <span class="permission-orb" aria-hidden="true"></span>
+        <span class="permission-orb" aria-hidden="true"><img src="/icons/icon48.png" alt="" /></span>
         <div>
           <h2 id="permission-title" data-copy="permissionTitle">仅在你主动扫描时申请广泛访问</h2>
           <p data-copy="permissionDetail">工作台需要查看浏览器中的 Cookie 才能发现来源。数据只在本次页面内存中处理，不上传，也不显示 Cookie 值。</p>
@@ -108,6 +114,7 @@
         <div>
           <strong id="selection-label" data-copy="selectionNone">尚未选择来源</strong>
           <span data-copy="exportPrivacy">导出后，本次扫描会立即从内存清除。</span>
+          <small class="qidu-credit">A <strong>QIDU</strong> Utility</small>
         </div>
         <div class="export-actions">
           <button id="clear-scan" class="secondary" type="button" disabled data-copy="clearScan">清除本次扫描</button>

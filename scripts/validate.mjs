@@ -32,8 +32,8 @@ if (manifest.manifest_version !== 3) {
   throw new Error('manifest_version must be 3')
 }
 
-if (manifest.name !== 'MediaCookies') {
-  throw new Error('manifest name must use the public MediaCookies brand')
+if (manifest.name !== 'MediaCookies · 凭') {
+  throw new Error('manifest name must use the public MediaCookies · 凭 brand')
 }
 
 if (manifest.version !== packageJson.version) {
