@@ -57,4 +57,4 @@
 
 ## 0.2.1 Chrome Web Store 草稿记录
 
-2026-07-16 上传并保存的 0.2.1 文件包、商品说明、QIDU 商店图标与中英截图记录在 [`chrome-web-store-draft-0.2.1.md`](chrome-web-store-draft-0.2.1.md)。草稿尚未提请审核。
+2026-07-16 上传的 0.2.1 文件包、商品说明、QIDU 商店图标与中英截图记录在 [`chrome-web-store-draft-0.2.1.md`](chrome-web-store-draft-0.2.1.md)。用户确认该版本已提请审核，当前等待 Chrome Web Store 审核结果。
