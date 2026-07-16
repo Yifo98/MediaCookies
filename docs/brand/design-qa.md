@@ -29,7 +29,9 @@ None.
 - The first scan-scope scene used editorial comparison cards. It now shows the real production workbench and its actual two scan-range controls.
 - The Media Dock handoff scene now visibly identifies its import state as synthetic; it is not presented as evidence of a completed real import test.
 - The first delivery held every beat for five seconds and felt slow. The final MP4 preserves all eight beats but runs at 1.4286× for an exactly 28.000-second delivery.
-- Early video QA reported contrast and layout findings. The affected typography and scene layout were corrected; final HyperFrames lint/check returned zero findings.
+- The social publishing pass now renders matched Simplified Chinese and English editions from one declared language variable. Both editions preserve the same scene order, timing, privacy claims, and real-product evidence; localized interface captures are used where available, and unavailable states are never fabricated.
+- The first English render placed its duration label over a lighter glow and missed WCAG AA contrast. The label now uses the declared ink color; both editions pass 56/56 sampled text checks.
+- Early video QA reported contrast and layout findings. The affected typography and scene layout were corrected; final HyperFrames checks return zero runtime, layout, motion, or contrast errors, with one accepted maintainability warning for the single-file bilingual composition.
 
 ### P2 — accepted
 
@@ -44,3 +46,4 @@ None.
 - Chinese is the default language; English is selected manually and persists.
 - Cookie values never appear in UI, screenshots, diagnostics, or video.
 - Synthetic metadata is used wherever a state needs demonstration.
+- Final encoded contact sheets were inspected for both `zh-CN` and `en` editions.
